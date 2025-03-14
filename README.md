@@ -18,5 +18,5 @@ Build
 Build https://github.com/ArthurSonzogni/FTXUI relative to this repo
 
 ```
-g++ poomer-fxtui-modal_select.cpp -o poomer-fxtui-modal_select -std=c++17 -I../FTXUI/include/ -L../FTXUI/build -lftxui-component -lftxui-dom -lftxui-screen -I.
+g++ poomer-ftxui-modal_select.cpp -o poomer-ftxui-modal_select -std=c++17 -I../FTXUI/include/ -L../FTXUI/build -lftxui-component -lftxui-dom -lftxui-screen -I.
 ```
