@@ -8,16 +8,15 @@
 // It is a lightweight library that is easy to use and understand.
 // It is a modern C++ library that provides a functional approach to building terminal applications.
 
-#include <memory>  // for allocator, shared_ptr, __shared_ptr_access
+#include <memory>  // for allocator, shared_ptr, __shared_ptr_access, used in ftxui
 #include <string>  // for string, basic_string, char_traits, operator+
-#include <vector>  // for vector
-#include <regex>   // for regex validation
-#include <sstream> // for string stream
-#include <iostream>// for cout
-#include <fstream> // for ifstream, ofstream
-#include <json.hpp>// for nlohmann/json
-#include <thread>  // for std::this_thread
-#include <chrono>  // for std::chrono
+#include <vector>  // for vector, for server_address_labels and bsz_files
+#include <regex>   // for regex validation , for ipv4 and fqdn validation
+#include <iostream>// for cout, cerr
+#include <fstream> // for ifstream, ofstream, for reading and writing to servers.json
+#include <json.hpp>// for nlohmann/json, for parsing and writing to servers.json
+#include <thread>  // for std::this_thread, for running the progress animation in a separate thread
+#include <chrono>  // for std::chrono, for sleeping the progress animation
 
 #include "ftxui/component/captured_mouse.hpp"  // for ftxui
 #include "ftxui/component/component.hpp"  // for Button, Renderer, Horizontal, Tab
@@ -108,6 +107,9 @@ int main() {
 
   // At depth=0, two buttons. One for rating FTXUI and one for quitting.
   auto ftxui_button_bsz = Button("Select .bsz", [&] { depth = FILE_SELECTION; });
+  auto ftxui_button_address = Button("Select Server", [&] { depth = SERVER_SELECTION; });
+  auto ftxui_input_address = Input(&address_input, "FQDN or IP address");
+
   auto ftxui_button_render = Button("Upload and render", [&] { 
     depth = MAIN_SCREEN;
     
@@ -115,6 +117,13 @@ int main() {
     percentage = 0.0f;
     
     // Launch a separate thread for updating the progress
+    // This is a lambda function that will be called when the button is clicked
+    // This is a stand-in for the actual uploading process
+    // [TODO] tie this into the ZMQ chunk upload process
+    // [TODO] chedck the server address is valid
+    // [TODO] check the server is reachable
+    // [TODO] check the file is a valid .bsz file
+    
     std::thread animation_thread([&]() {
       // Update percentage from 0 to 100% in small increments
       for (float p = 0.0f; p <= 1.0f; p += 0.01f) {
@@ -135,9 +144,8 @@ int main() {
     // Detach the thread so it continues running independently
     animation_thread.detach();
   });
-  auto ftxui_button_address = Button("Select Server", [&] { depth = SERVER_SELECTION; });
+
   auto ftxui_button_quit = Button("Quit", screen.ExitLoopClosure());
-  auto ftxui_input_address = Input(&address_input, "FQDN or IP address");
 
   // 1. Read existing JSON file
   nlohmann::json j;
