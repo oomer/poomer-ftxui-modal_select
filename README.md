@@ -11,9 +11,7 @@ FTXUI is a library that allows you to create text-based user interfaces.
 It is a lightweight library that is easy to use and understand.
 It is a modern C++ library that provides a functional approach to building terminal applications.
 
-ftxui is 
-
-Build
+# Build
 
 Build https://github.com/ArthurSonzogni/FTXUI relative to this repo
 
