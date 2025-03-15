@@ -56,8 +56,9 @@ g++ poomer-ftxui-modal_select.cpp -o poomer-ftxui-modal_select -std=c++17 -I../F
 ```
 
 ## Windows
-
-launch x64 Native tools Command Prompt for VS2022
+- Install Visual Studio Community 2022 
+- Add Desktop development with C++ workload
+- Launch x64 Native tools Command Prompt for VS2022
 
 
 ```
